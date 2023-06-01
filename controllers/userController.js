@@ -36,7 +36,7 @@ exports.registerUser = async (req, res) => {
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("User registration error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -66,7 +66,7 @@ exports.loginUser = async (req, res) => {
 
     // Generate JWT token
     const token = generateToken(user._id);
-
+    res.setHeader("Authorization", `Bearer ${token}`);
     return res.status(200).json({ token });
   } catch (error) {
     console.error("User login error:", error);
